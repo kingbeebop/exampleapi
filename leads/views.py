@@ -21,7 +21,7 @@ def lead_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 #/leads/id get, update, delete requests
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'DELETE'])
 def lead_detail(request, id):
     
     try:
@@ -33,7 +33,7 @@ def lead_detail(request, id):
     if request.method == 'GET':
         serializer = LeadSerializer(lead)
         return Response({"inbox_lead": serializer.data, "inbox_token": firm.inbox_token})
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         serializer = LeadSerializer(lead, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -42,3 +42,21 @@ def lead_detail(request, id):
     elif request.method == 'DELETE':
         lead.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+#/inbox/api_key
+@api_view(['GET'])
+def lead_inbox(request, api_key):
+
+    try:
+        firm = Firm.objects.get(api_key = api_key)
+    except Firm.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        try:
+            lead = Lead.objects.all().filter(firm = firm)
+        except Lead.DoesNotExist:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        serializer = LeadSerializer(lead)
+        return Response(status=status.HTTP_404_NOT_FOUND)

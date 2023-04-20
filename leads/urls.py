@@ -21,5 +21,6 @@ from leads import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('leads/', views.lead_list),
-    path('leads/<int:id>', views.lead_detail)
+    path('leads/<int:id>', views.lead_detail),
+    path('inbox/<str:api_key>', views.lead_inbox)
 ]

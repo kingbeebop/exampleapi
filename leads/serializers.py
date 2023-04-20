@@ -4,7 +4,7 @@ from .models import Lead, Firm
 class LeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
-        fields = ['id', 'first_name', 'last_name', 'message', 'email', 'phone', 'url', 'source']
+        fields = ['id', 'first_name', 'last_name', 'message', 'email', 'phone', 'url', 'source', 'processed']
 
 
 class FirmSerializer(serializers.ModelSerializer):

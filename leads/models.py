@@ -22,3 +22,6 @@ class Lead(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+    #def processed(self):
+    #   self.processed = True
