@@ -47,6 +47,7 @@ def lead_detail(request, id):
 @api_view(['GET'])
 def lead_inbox(request, api_key):
 
+    #TODO: use built in api keys instead
     try:
         firm = Firm.objects.get(api_key = api_key)
     except Firm.DoesNotExist:
@@ -54,9 +55,12 @@ def lead_inbox(request, api_key):
     
     if request.method == 'GET':
         try:
-            lead = Lead.objects.all().filter(firm = firm)
+            lead = Lead.objects.all().get(firm = firm, processed = False)
+            print(lead)
         except Lead.DoesNotExist:
             return Response(status=status.HTTP_204_NO_CONTENT)
-
+        
+        lead.processed = True
+        lead.save()
         serializer = LeadSerializer(lead)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"inbox_lead": serializer.data, "inbox_token": firm.inbox_token})

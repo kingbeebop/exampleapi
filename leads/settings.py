@@ -125,6 +125,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+#uncomment this to impliment api key validation for all requests
 # REST_FRAMEWORK = {
 #     "DEFAULT_PERMISSION_CLASSES": [
 #         "rest_framework_api_key.permissions.HasAPIKey",
