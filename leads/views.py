@@ -67,6 +67,14 @@ def lead_inbox(request, api_key):
         #serialize data
         serializer = LeadSerializer(lead)
 
+        #TODO:
+        #This fetch request isn't currently accepted by clio
+        #as per their documentation, api requests typically are sent with an authentication token
+        #but could not find authentication on the test server enviornment
+        #Thinking that perhaps clio has whitelisted the server to allow for the old VB code to work
+        #Need to test once enviornment is properly configured
+        #OR need to get information to generate a new authentication token for this fetch to go through
+        #/////
         #send POST request to clio with message data
         clio_response = requests.post(
             'https://grow.clio.com/inbox_leads',
