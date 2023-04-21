@@ -45,9 +45,9 @@ def lead_detail(request, id):
         lead.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-#/inbox/api_key
+#/clio/api_key
 @api_view(['GET'])
-def lead_inbox(request, api_key):
+def clio(request, api_key):
 
     #api validation, find firm by api key
     #not secure
