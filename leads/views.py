@@ -55,7 +55,7 @@ def lead_inbox(request, api_key):
     
     if request.method == 'GET':
         try:
-            lead = Lead.objects.all().get(firm = firm, processed = False)
+            lead = Lead.objects.get(firm = firm, processed = False)
             print(lead)
         except Lead.DoesNotExist:
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -63,4 +63,5 @@ def lead_inbox(request, api_key):
         lead.processed = True
         lead.save()
         serializer = LeadSerializer(lead)
+        
         return Response({"inbox_lead": serializer.data, "inbox_token": firm.inbox_token})
