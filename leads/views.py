@@ -4,6 +4,7 @@ from .serializers import LeadSerializer, FirmSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+import requests
 
 #/leads/ display json of all leads
 @api_view(['GET', 'POST'])
@@ -63,5 +64,12 @@ def lead_inbox(request, api_key):
         lead.processed = True
         lead.save()
         serializer = LeadSerializer(lead)
+
+        clio_response = requests.post(
+            'https://grow.clio.com/inbox_leads',
+            data = {"inbox_lead": serializer.data,
+                    "inbox_token": firm.inbox_token},
+                    headers = {"Content-Type": "application/json",
+                               "Accept": "application/json"})
         
-        return Response({"inbox_lead": serializer.data, "inbox_token": firm.inbox_token})
+        return Response({"data": {"inbox_lead": serializer.data, "inbox_token": firm.inbox_token}, "response": clio_response})
