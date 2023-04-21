@@ -29,13 +29,12 @@ def lead_detail(request, id):
     
     try:
         lead = Lead.objects.get(pk=id)
-        firm = Firm.objects.get(pk=lead.firm.id)
     except Lead.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
         serializer = LeadSerializer(lead)
-        return Response({"inbox_lead": serializer.data, "inbox_token": firm.inbox_token})
+        return Response({"inbox_lead": serializer.data, "inbox_token": lead.firm.inbox_token})
     elif request.method == 'POST':
         serializer = LeadSerializer(lead, data=request.data)
         if serializer.is_valid():
