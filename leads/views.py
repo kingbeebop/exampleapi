@@ -76,9 +76,10 @@ def lead_inbox(request, api_key):
                     headers = {"Content-Type": "application/json",
                                "Accept": "application/json"})
         
-        #mark new message as processed
-        lead.processed = True
-        lead.save()
+        #if 202 response, mark new message as processed
+        if clio_response.status_code == 202:
+            lead.processed = True
+            lead.save()
         
         #return json with sent data and a copy of the response from the clio api call above
         return Response({"data": {"inbox_lead": serializer.data, "inbox_token": firm.inbox_token}, "response": clio_response})
