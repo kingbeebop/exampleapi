@@ -16,7 +16,7 @@ class Lead(models.Model):
     from_email = models.CharField(max_length=200)
     from_phone = models.CharField(max_length=20)
     referring_url = models.CharField(max_length=200)
-    from_source = models.CharField(max_length=200)
+    from_source = models.CharField(max_length=50, default="Answering Legal")
     date = models.DateTimeField
     processed = models.BooleanField(default=False)
 

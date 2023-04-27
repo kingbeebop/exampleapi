@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 import requests
+import json
 
 #/leads/ display json of all leads
 #intended for internal use only
@@ -78,16 +79,16 @@ def clio(request, api_key):
         #/////
         #send POST request to clio with message data
         clio_response = requests.post(
-            'https://grow.clio.com/inbox_leads',
-            data = {"inbox_lead": serializer.data,
-                    "inbox_token": firm.inbox_token},
-                    headers = {"Content-Type": "application/json",
-                               "Accept": "application/json"})
+            f'https://grow.clio.com/inbox_leads?inbox_lead_token={firm.inbox_token}',
+            data = json.dumps({"inbox_lead": serializer.data}),
+            headers = {"Content-Type": "application/json",
+                    "Accept": "application/json"})
         
-        #if 202 response, mark new message as processed
-        if clio_response.status_code == 202:
+        #if 201 response, mark new message as processed
+        if clio_response.status_code == 201:
             lead.processed = True
             lead.save()
         
         #return json with sent data and a copy of the response from the clio api call above
-        return Response({"data": {"inbox_lead": serializer.data, "inbox_token": firm.inbox_token}, "response": clio_response})
+        return Response({"data": {"inbox_lead_token": firm.inbox_token, "inbox_lead": serializer.data}, "response": clio_response})
+    
