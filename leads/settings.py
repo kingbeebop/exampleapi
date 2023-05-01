@@ -81,6 +81,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    #for a direct connection to SQL Server:
+    # 'default': {
+    #     'ENGINE': 'sql_server.pyodbc',
+    #     'NAME': 'WIN-QGH9AHQ48OJ\SQLEXPRESS2019',
+    #     'USER': 'sa',
+    #     'PASSWORD': 'd1nner212',
+    #     'HOST': 'myserver.database.windows.net',
+    #     'PORT': '1433',
+    #     'OPTIONS': {
+    #         'driver': 'ODBC Driver 17 for SQL Server',
+    #     },
+    #}
 }
 
 

@@ -9,19 +9,19 @@ class Firm(models.Model):
         return self.name
 
 class Lead(models.Model):
-    firm = models.ForeignKey(Firm, on_delete=models.CASCADE)
-    from_first = models.CharField(max_length=200)
-    from_last = models.CharField(max_length=200)
-    from_message = models.CharField(max_length=1000)
-    from_email = models.CharField(max_length=200)
-    from_phone = models.CharField(max_length=20)
-    referring_url = models.CharField(max_length=200)
-    from_source = models.CharField(max_length=50, default="Answering Legal")
+    firm = models.ForeignKey(Firm, on_delete=models.CASCADE, default=False)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    message = models.CharField(max_length=1000)
+    email = models.EmailField(max_length=200)
+    phone = models.CharField(max_length=20)
+    url = models.CharField(max_length=200)
+    source = models.CharField(max_length=50, default="Answering Legal")
     date = models.DateTimeField
     processed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.from_first
+        return self.first_name
     
     #def processed(self):
     #   self.processed = True

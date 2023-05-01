@@ -1,6 +1,6 @@
 #from django.http import JsonResponse
 from .models import Lead, Firm
-from .serializers import LeadSerializer
+from .serializers import LeadSerializer, ClioSerializer
 #, FirmSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -67,7 +67,7 @@ def clio(request, api_key):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         #serialize data
-        serializer = LeadSerializer(lead)
+        serializer = ClioSerializer(lead)
 
         #TODO:
         #This fetch request isn't currently accepted by clio
